@@ -1,0 +1,6 @@
+{
+  "extends": "@placement-io-oms/typescript-config/base.json",
+  "include": [".", "../../apps/api/src/routing"],
+  "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {}
+}

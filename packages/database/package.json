@@ -1,0 +1,28 @@
+{
+  "name": "@placement-io-oms/database",
+  "version": "0.0.0",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db push --skip-generate && ts-node prisma/seed/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "@ts-rest/core": "^3.30.5",
+    "@ts-rest/express": "^3.30.5",
+    "express": "^4.18.2",
+    "prisma": "^5.6.0"
+  },
+  "devDependencies": {
+    "@ts-rest/core": "^3.30.5",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "prisma": "^5.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.2.2",
+    "zod": "^3.22.4"
+  }
+}
