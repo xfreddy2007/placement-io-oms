@@ -12,3 +12,35 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// Campaign model - represents an order/campaign
+model Campaign {
+  id          Int      @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  lineItems   LineItem[]
+
+  @@map("campaigns")
+}
+
+// LineItem model - represents individual ads within a campaign
+model LineItem {
+  id            Int      @id @default(autoincrement())
+  campaignId    Int
+  campaignName  String
+  lineItemName  String
+  bookedAmount  Decimal  @db.Decimal(30, 15) // High precision for large amounts
+  actualAmount  Decimal  @db.Decimal(30, 15) // Actual performance-based amount
+  adjustments   Decimal  @db.Decimal(30, 15) @default(0) // Billing adjustments (editable field)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  campaign      Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@map("line_items")
+}
+
