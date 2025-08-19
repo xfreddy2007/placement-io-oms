@@ -15,8 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "@(-.-)/env": "^0.3.2",
-    "@prisma/client": "^5.6.0",
     "@placement-io-oms/database": "*",
+    "@prisma/client": "^5.6.0",
     "@ts-rest/core": "^3.30.5",
     "@ts-rest/express": "^3.30.5",
     "@ts-rest/open-api": "^3.30.5",
