@@ -859,7 +859,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@placement-io-oms/database@*, @placement-io-oms/database@workspace:packages/database":
+"@placement-io-oms/database@*, @placement-io-oms/database@workspace:^, @placement-io-oms/database@workspace:packages/database":
   version: 0.0.0-use.local
   resolution: "@placement-io-oms/database@workspace:packages/database"
   dependencies:
@@ -900,7 +900,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@placement-io-oms/ui@*, @placement-io-oms/ui@workspace:packages/ui":
+"@placement-io-oms/ui@*, @placement-io-oms/ui@workspace:^, @placement-io-oms/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@placement-io-oms/ui@workspace:packages/ui"
   dependencies:
@@ -916,7 +916,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@placement-io-oms/utils@workspace:packages/utils":
+"@placement-io-oms/utils@workspace:^, @placement-io-oms/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@placement-io-oms/utils@workspace:packages/utils"
   dependencies:
@@ -1362,6 +1362,43 @@ __metadata:
     postcss: ^8.4.41
     tailwindcss: 4.1.12
   checksum: d9d1d6e99c7089e83d719bdcac7c8a4c0d4e7ebf196827c21dae0cdfe293a164f5ffafc85e574ef3e0008aaa95e623cb7ae39d55465acd79df9306117e168be1
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:5.85.5":
+  version: 5.85.5
+  resolution: "@tanstack/query-core@npm:5.85.5"
+  checksum: 2bd2b028fcdd5a5608ea4ec3459fea27d72f83d18c586e9dc109869d3f534bbc01430251027a0b2adaf9ab324e63c17d782cc91dc50ba1910f43feec932f5c1c
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.85.5":
+  version: 5.85.5
+  resolution: "@tanstack/react-query@npm:5.85.5"
+  dependencies:
+    "@tanstack/query-core": 5.85.5
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 02453c002288aade0e8222ae7e430d72e7e7d00bb5e163fcd52e788012b5c45f68b6f7fca470bd90c7ab80e8eda306251990164a386010dc19c54b3c0ea62b12
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-table@npm:^8.21.3":
+  version: 8.21.3
+  resolution: "@tanstack/react-table@npm:8.21.3"
+  dependencies:
+    "@tanstack/table-core": 8.21.3
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 1452e7bd1dd0febbfc37e656c61c2c426dc243136333a8688bfadfccfec233e87c9bbe83011d742b0e86ae52c9b3d436bdc5618be4ac675ab921f52317317780
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:8.21.3":
+  version: 8.21.3
+  resolution: "@tanstack/table-core@npm:8.21.3"
+  checksum: ce260ab981f334ba999240cf68ae942a524a28980f6853275da90d1864a8b56fa59b952bfd2266570f36ae11f66476d1c96dacc640ba5fd9d6d4e2a78cf05187
   languageName: node
   linkType: hard
 
@@ -8002,10 +8039,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:apps/web"
   dependencies:
+    "@placement-io-oms/database": "workspace:^"
     "@placement-io-oms/eslint-config": "*"
     "@placement-io-oms/typescript-config": "*"
-    "@placement-io-oms/ui": "*"
+    "@placement-io-oms/ui": "workspace:^"
+    "@placement-io-oms/utils": "workspace:^"
     "@tailwindcss/postcss": ^4.1.12
+    "@tanstack/react-query": ^5.85.5
+    "@tanstack/react-table": ^8.21.3
     "@types/node": ^22.15.3
     "@types/react": 19.1.0
     "@types/react-dom": 19.1.1
