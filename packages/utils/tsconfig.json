@@ -1,0 +1,6 @@
+{
+  "extends": "@placement-io-oms/typescript-config/base.json",
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"],
+  "compilerOptions": {}
+}

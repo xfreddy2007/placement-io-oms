@@ -1,0 +1,17 @@
+{
+  "name": "@placement-io-oms/utils",
+  "version": "0.0.0",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "scripts": {
+    "lint": "eslint . --max-warnings 0"
+  },
+  "devDependencies": {
+    "@placement-io-oms/typescript-config": "*",
+    "@turbo/gen": "^1.10.12",
+    "@types/eslint": "^8.44.7",
+    "eslint": "^8.53.0",
+    "typescript": "^5.2.2",
+    "zod": "^3.22.4"
+  }
+}

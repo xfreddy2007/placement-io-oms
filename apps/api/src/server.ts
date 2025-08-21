@@ -1,5 +1,5 @@
 import contract from "@/rest-contract";
-// import { createExpressEndpoints } from "@ts-rest/express";
+import { createExpressEndpoints } from "@ts-rest/express";
 import { generateOpenApi } from "@ts-rest/open-api";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -8,6 +8,7 @@ import { Server } from "http";
 import swaggerUi from "swagger-ui-express";
 
 import Env from "@/env";
+import campaignRouter from "./routes/campaign/router";
 import Logger from "@/logger";
 
 const app: Express = express();
@@ -62,6 +63,8 @@ export function registerRoutes(): void {
     });
     app.use("/swagger", swaggerUi.serve, swaggerUi.setup(openApiDocument));
   }
+
+  createExpressEndpoints(contract.campaign, campaignRouter, app);
 }
 
 /**

@@ -1,6 +1,6 @@
 import { closeServer, registerRoutes, startServer } from "@/server";
 
-import Logger from "@/logger"";
+import Logger from "@/logger";
 
 /**
  * Description: Entry point for the backend server.

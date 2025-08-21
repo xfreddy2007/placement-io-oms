@@ -8,5 +8,5 @@ export default defineConfig({
   clean: true,
   outDir: "dist",
   format: "cjs",
-  noExternal: ["@placement-io-oms/database"],
+  noExternal: ["@placement-io-oms/database", "@placement-io-oms/utils"],
 });
