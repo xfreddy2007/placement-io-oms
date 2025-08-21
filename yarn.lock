@@ -1451,6 +1451,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ts-rest/react-query@npm:^3.52.1":
+  version: 3.52.1
+  resolution: "@ts-rest/react-query@npm:3.52.1"
+  peerDependencies:
+    "@tanstack/react-query": ^4.0.0 || ^5.0.0
+    "@ts-rest/core": ~3.52.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    zod: ^3.22.3
+  peerDependenciesMeta:
+    zod:
+      optional: true
+  checksum: 583c448cda13141d648426d8b5f5475319400ad511d5ef46504f4f6eef7576dfb297165f930dfb957a379145dfb0dc91e521093300254879a6fd3e66d01de789
+  languageName: node
+  linkType: hard
+
 "@tsconfig/node10@npm:^1.0.7":
   version: 1.0.11
   resolution: "@tsconfig/node10@npm:1.0.11"
@@ -8047,6 +8062,7 @@ __metadata:
     "@tailwindcss/postcss": ^4.1.12
     "@tanstack/react-query": ^5.85.5
     "@tanstack/react-table": ^8.21.3
+    "@ts-rest/react-query": ^3.52.1
     "@types/node": ^22.15.3
     "@types/react": 19.1.0
     "@types/react-dom": 19.1.1
