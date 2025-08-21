@@ -7,16 +7,18 @@ const c = initContract();
 const lineItemContract = c.router({
   getLineItem: {
     method: "GET",
-    path: "/lineItems",
+    path: "/line-items",
     query: z.object({
-      id: z.number().optional(),
-      campaignId: z.number().optional(),
+      campaignId: z.coerce.number(),
+      id: z.coerce.number().optional(),
     }),
     responses: {
       200: z.object({
         lineItems: z.array(LineItem),
       }),
-      204: z.object({}),
+      204: z.object({
+        message: z.string(),
+      }),
     },
     summary: "Get all existing line items",
   },

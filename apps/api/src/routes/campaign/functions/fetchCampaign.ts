@@ -7,6 +7,10 @@ export const fetchCampaign = async (id?: number): Promise<Campaign[]> => {
     where: { id },
   });
 
+  if (!campaigns) {
+    return [];
+  }
+
   return campaigns.map((element) => ({
     id: element.id,
     name: element.name,

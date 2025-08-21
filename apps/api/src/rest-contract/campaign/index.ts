@@ -9,7 +9,7 @@ const campaignContract = c.router({
     method: "GET",
     path: "/campaign",
     query: z.object({
-      id: z.number().optional(),
+      id: z.coerce.number().optional(),
     }),
     responses: {
       200: z.object({

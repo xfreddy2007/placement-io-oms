@@ -9,6 +9,7 @@ import swaggerUi from "swagger-ui-express";
 
 import Env from "@/env";
 import campaignRouter from "./routes/campaign/router";
+import lineItemRouter from "./routes/lineItem/router";
 import Logger from "@/logger";
 
 const app: Express = express();
@@ -65,6 +66,7 @@ export function registerRoutes(): void {
   }
 
   createExpressEndpoints(contract.campaign, campaignRouter, app);
+  createExpressEndpoints(contract.lineItem, lineItemRouter, app);
 }
 
 /**
