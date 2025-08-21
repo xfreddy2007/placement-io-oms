@@ -5,7 +5,12 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "target": "ESNext",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "incremental": true
   },
   "include": [
     "**/*.ts",
