@@ -62,7 +62,11 @@ export function registerRoutes(): void {
         },
       ],
     });
-    app.use("/swagger", swaggerUi.serve, swaggerUi.setup(openApiDocument));
+    app.use(
+      "/swagger",
+      swaggerUi.serve as any,
+      swaggerUi.setup(openApiDocument) as any
+    );
   }
 
   createExpressEndpoints(contract.campaign, campaignRouter, app);
