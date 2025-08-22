@@ -1,6 +1,6 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import {Table} from '@tanstack/react-table';
+import { Table } from "@tanstack/react-table";
 
 type UseTablePaginationProps<T> = {
   table: Table<T>;
@@ -27,21 +27,21 @@ export default function useTablePagination<T>({
 
       // If pages is less than or equal to maxPageCount, return all pages
       if (table.getPageCount() <= maxPageCount) {
-        return Array.from({length: numOfPages}, (_, i) => i + 1);
+        return Array.from({ length: numOfPages }, (_, i) => i + 1);
       }
 
       const middlePageIndex = Math.floor(numOfPages / 2);
 
       // For current page is less than middlePageIndex, get the first maxPageCount pages
       if (currentPage <= middlePageIndex) {
-        return Array.from({length: numOfPages}, (_, i) => i + 1);
+        return Array.from({ length: numOfPages }, (_, i) => i + 1);
       }
 
       // For current page is greater than middlePageIndex, get the last maxPageCount pages
       if (currentPage > table.getPageCount() - middlePageIndex) {
         return Array.from(
-          {length: numOfPages},
-          (_, i) => table.getPageCount() - numOfPages + i + 1,
+          { length: numOfPages },
+          (_, i) => table.getPageCount() - numOfPages + i + 1
         );
       }
 
@@ -49,7 +49,7 @@ export default function useTablePagination<T>({
 
       const startPage = Math.max(1, currentPage - middlePageIndex);
 
-      return Array.from({length: numOfPages}, (_, i) => startPage + i);
+      return Array.from({ length: numOfPages }, (_, i) => startPage + i);
     }
     return [];
   }, [currentPage, maxPageCount, sortedRowModel, table]);
@@ -71,7 +71,7 @@ export default function useTablePagination<T>({
       setCurrentPage(page);
       table.setPageIndex(page - 1);
     },
-    [table],
+    [table]
   );
 
   return {
