@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchLineItems } from "@/lib/hooks/lineItem/useFetchLineItems";
 import {
@@ -127,6 +127,28 @@ export default function LineItemPage({
       rowSelection: rowSelection,
     },
   });
+
+  // Subtotal
+  const rows = table.getRowModel();
+  const { bookedAmount, actualAmount, adjustments } = useMemo(() => {
+    const visibleRows = rows.rows;
+
+    const result = {
+      bookedAmount: 0,
+      actualAmount: 0,
+      adjustments: 0,
+    };
+
+    const summedObject = visibleRows.reduce((acc, curr) => {
+      return {
+        bookedAmount: acc.bookedAmount + curr.original.bookedAmount,
+        actualAmount: acc.actualAmount + curr.original.actualAmount,
+        adjustments: acc.adjustments + curr.original.adjustments,
+      };
+    }, result);
+
+    return summedObject;
+  }, [rows]);
 
   // Pagination
   const { paginationList, currentPage, onPaginationChange } =
@@ -262,6 +284,38 @@ export default function LineItemPage({
             )}
           </tbody>
         </table>
+        <div className="w-full flex items-center justify-between flex-wrap gap-x-4">
+          <span className="font-bold">Subtotal</span>
+          <div className="flex gap-x-4 flex-col md:flex-row">
+            <div className="flex gap-x-2">
+              <span className="font-bold">Booked Amount:</span>
+              <span>
+                $
+                {bookedAmount.toLocaleString("en-US", {
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+            <div className="flex gap-x-1">
+              <span className="font-bold">Actual Amount:</span>
+              <span>
+                $
+                {actualAmount.toLocaleString("en-US", {
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+            <div className="flex gap-x-1">
+              <span className="font-bold">Adjustments:</span>
+              <span>
+                $
+                {adjustments.toLocaleString("en-US", {
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+          </div>
+        </div>
         <Pagination
           currentPage={currentPage}
           hasPreviousHiddenPagination={(paginationList.at(0) ?? 0) > 1}
