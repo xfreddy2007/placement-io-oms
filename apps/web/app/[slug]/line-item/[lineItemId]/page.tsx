@@ -29,10 +29,10 @@ export default function LineItemDetailPage({
   // Edit adjustment
   const [isEditing, setIsEditing] = useState(false);
   const [isModifying, setIsModifying] = useState(false);
-  const [adjustments, setAdjustments] = useState(0);
+  const [adjustments, setAdjustments] = useState("");
 
   const onSubmit = useCallback(
-    (event: FormEvent) => {
+    async (event: FormEvent) => {
       event.preventDefault();
       const adjustments = (event.target as HTMLFormElement).adjustments.value;
 
@@ -43,15 +43,21 @@ export default function LineItemDetailPage({
       ) {
         // edit adjustment value
         setIsModifying(true);
-        // setIsModifying(false);
+        await ApiClient.lineItem.updateAdjustments.mutation({
+          body: {
+            id: Number(lineItemId),
+            adjustments: Number(adjustments),
+          },
+        });
+        setIsModifying(false);
+
+        // Update the data to be the latest
+        await refetch();
       }
 
-      // Update the data to be the latest
-      refetch();
-
-      // setIsEditing(false);
+      setIsEditing(false);
     },
-    [lineItem, refetch]
+    [lineItem, lineItemId, refetch]
   );
 
   return (
@@ -102,9 +108,7 @@ export default function LineItemDetailPage({
                 value={adjustments}
                 onChange={(e) => {
                   const value = (e.target as HTMLInputElement).value;
-                  if (!isNaN(Number(value))) {
-                    setAdjustments(Number(value));
-                  }
+                  setAdjustments(value);
                 }}
                 className="px-2 py-1 border-[1px] border-solid border-black rounded-sm"
               />
@@ -126,9 +130,9 @@ export default function LineItemDetailPage({
             </form>
           ) : (
             <div
-              className="text-base py-2 px-4 flex gap-x-2 h-10 cursor-pointer"
+              className="text-base py-2 px-4 flex gap-x-2 h-10 cursor-pointer rounded-lg hover:border-[1px] hover:border-gray-200 hover:shadow-2xl hover:-translate-y-0.5"
               onClick={() => {
-                setAdjustments(lineItem[0]?.adjustments ?? 0);
+                setAdjustments(lineItem[0]?.adjustments.toString() ?? "");
                 setIsEditing(true);
               }}
             >

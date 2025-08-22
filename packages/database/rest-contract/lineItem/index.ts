@@ -22,6 +22,23 @@ const lineItemContract = c.router({
     },
     summary: "Get all existing line items",
   },
+  updateAdjustments: {
+    method: "PUT",
+    path: "/line-items/update",
+    body: z.object({
+      id: z.coerce.number(),
+      adjustments: z.coerce.number(),
+    }),
+    responses: {
+      201: z.object({
+        lineItem: LineItem,
+      }),
+      204: z.object({
+        message: z.string(),
+      }),
+    },
+    summary: "Update the adjustments for a specific line item",
+  },
 });
 
 export default lineItemContract;
