@@ -1,4 +1,4 @@
-import contract from "@/rest-contract";
+import contract from "@placement-io-oms/database/rest-contract";
 import { createExpressEndpoints } from "@ts-rest/express";
 import { generateOpenApi } from "@ts-rest/open-api";
 import bodyParser from "body-parser";

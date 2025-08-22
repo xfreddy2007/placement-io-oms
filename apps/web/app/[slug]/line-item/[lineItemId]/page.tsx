@@ -2,33 +2,54 @@
 
 import { use, useState, useCallback, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useFetchLineItems } from "@/lib/hooks/lineItem/useFetchLineItems";
+import { ref } from "process";
+import ApiClient from "@/lib/api";
 
 export default function LineItemDetailPage({
   params,
 }: {
-  params: Promise<{ lineItemId: string }>;
+  params: Promise<{ slug: string; lineItemId: string }>;
 }) {
-  const { lineItemId } = use(params);
+  const { slug, lineItemId } = use(params);
 
   const router = useRouter();
 
-  if (isNaN(Number(lineItemId))) {
+  if (isNaN(Number(slug)) || isNaN(Number(lineItemId))) {
     router.push("/");
   }
 
+  // Get specific line item from the provided campaign id
+  const {
+    data: lineItem,
+    isLoading,
+    refetch,
+  } = useFetchLineItems(Number(slug), Number(lineItemId));
+
   // Edit adjustment
   const [isEditing, setIsEditing] = useState(false);
+  const [isModifying, setIsModifying] = useState(false);
+  const [adjustments, setAdjustments] = useState(0);
 
-  const onSubmit = useCallback((event: FormEvent) => {
-    const adjustments = (event.target as HTMLFormElement).adjustments.value;
+  const onSubmit = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
+      const adjustments = (event.target as HTMLFormElement).adjustments.value;
 
-    // Check valid number
-    if (!isNaN(Number(adjustments))) {
-      // edit adjustment value
-    }
+      // Check valid number
+      if (!isNaN(Number(adjustments))) {
+        // edit adjustment value
+        setIsModifying(true);
+        // setIsModifying(false);
+      }
 
-    setIsEditing(false);
-  }, []);
+      // Update the data to be the latest
+      refetch();
+
+      // setIsEditing(false);
+    },
+    [refetch]
+  );
 
   return (
     <section className="w-full p-16">
@@ -47,48 +68,75 @@ export default function LineItemDetailPage({
           {"< Back"}
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 p-4 border-[1px] border-solid border-black gap-2">
-        <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-          <span className="font-bold">Line item id:</span>
-          <span>{lineItemId}</span>
-        </div>
-        <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-          <span className="font-bold">Line item name:</span>
-        </div>
-        <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-          <span className="font-bold">Booked amount:</span>
-        </div>
-        <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-          <span className="font-bold">Actual amount:</span>
-        </div>
-        <div className="text-base py-2 px-4 flex gap-x-2 h-10">
+      {isLoading ? (
+        <div className="w-full h-24">Loading...</div>
+      ) : lineItem && lineItem?.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 p-4 border-[1px] border-solid border-black gap-2">
+          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
+            <span className="font-bold">Line item id:</span>
+            <span>{lineItemId}</span>
+          </div>
+          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
+            <span className="font-bold">Line item name:</span>
+            <span>{lineItem[0]?.lineItemName}</span>
+          </div>
+          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
+            <span className="font-bold">Booked amount:</span>
+            <span>{lineItem[0]?.bookedAmount}</span>
+          </div>
+          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
+            <span className="font-bold">Actual amount:</span>
+            <span>{lineItem[0]?.actualAmount}</span>
+          </div>
           {isEditing ? (
             <form
               onSubmit={onSubmit}
-              className="flex w-full gap-x-2 items-center"
+              className="flex w-full gap-x-2 items-center text-base py-2 px-4 h-10"
             >
-              <label className="font-bold">Adjustments</label>
+              <label className="font-bold">Adjustments:</label>
               <input
                 name="adjustments"
+                value={adjustments}
+                onChange={(e) => {
+                  const value = (e.target as HTMLInputElement).value;
+                  if (!isNaN(Number(value))) {
+                    setAdjustments(Number(value));
+                  }
+                }}
                 className="px-2 py-1 border-[1px] border-solid border-black rounded-sm"
               />
               <button
                 type="submit"
-                className="px-2 py-1 bg-red-500 text-white hover:bg-red-300 rounded-sm cursor-pointer"
+                className="px-2 py-1 bg-red-500 text-white hover:bg-red-300 rounded-sm cursor-pointer min-w-10 h-8"
+                disabled={isModifying}
               >
-                Send
+                {isModifying ? (
+                  <img
+                    src="/Icon/svg/spinner.svg"
+                    loading="lazy"
+                    className="animate-spin mx-auto"
+                  />
+                ) : (
+                  "Send"
+                )}
               </button>
             </form>
           ) : (
-            <span
-              className="font-bold cursor-pointer"
-              onClick={() => setIsEditing(true)}
+            <div
+              className="text-base py-2 px-4 flex gap-x-2 h-10 cursor-pointer"
+              onClick={() => {
+                setAdjustments(lineItem[0]?.adjustments ?? 0);
+                setIsEditing(true);
+              }}
             >
-              Adjustments:
-            </span>
+              <span className="font-bold">Adjustments:</span>
+              <span>{lineItem[0]?.adjustments}</span>
+            </div>
           )}
         </div>
-      </div>
+      ) : (
+        <div className="w-full h-24">No line item found</div>
+      )}
     </section>
   );
 }

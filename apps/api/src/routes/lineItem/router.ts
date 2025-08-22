@@ -1,4 +1,4 @@
-import contract from "@/rest-contract/lineItem";
+import contract from "@placement-io-oms/database/rest-contract/lineItem";
 import RouterServer from "../router-server";
 import { fetchLineItems } from "./functions/fetchLineItems";
 

@@ -1,4 +1,4 @@
-import contract from "@/rest-contract/campaign";
+import contract from "@placement-io-oms/database/rest-contract/campaign";
 import RouterServer from "../router-server";
 import { fetchCampaign } from "./functions/fetchCampaign";
 
