@@ -247,7 +247,8 @@ This implementation provides a solid foundation for:
 2. **Invoice Generation**: Add invoice creation functionality
 3. **Reporting**: Implement financial reports and analytics
 4. **User Authentication**: Add user management and permissions
-5. **Advanced Features**: Add campaign status management, date ranges, etc.
+5. **Backend Data Caching**: Add cache mechanism (e.g. Redis) to help reducing backend processing time
+6. **Advanced Features**: Add campaign status management, date ranges, etc.
 
 ## 📚 Additional Resources
 
