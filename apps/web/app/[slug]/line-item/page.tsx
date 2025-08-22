@@ -22,18 +22,18 @@ import Pagination from "@/components/Pagination";
 export default function LineItemPage({
   params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = use(params);
 
   const router = useRouter();
 
-  if (isNaN(Number(slug[0]))) {
+  if (isNaN(Number(slug))) {
     router.push("/");
   }
 
   // Get all line items from the provided campaign id
-  const { data: lineItems, isLoading } = useFetchLineItems(Number(slug[0]));
+  const { data: lineItems, isLoading } = useFetchLineItems(Number(slug));
 
   // Sorting and selecting state
   const [sorting, setSorting] = useState<SortingState>([
@@ -138,7 +138,7 @@ export default function LineItemPage({
           <button
             className="bg-black text-white hover:bg-gray-700 transition duration-100 px-4 py-2 rounded-lg cursor-pointer"
             onClick={() => {
-              router.back();
+              router.push("/");
             }}
           >
             {"< Back"}
