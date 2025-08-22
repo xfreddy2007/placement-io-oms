@@ -37,7 +37,10 @@ export default function LineItemDetailPage({
       const adjustments = (event.target as HTMLFormElement).adjustments.value;
 
       // Check valid number
-      if (!isNaN(Number(adjustments))) {
+      if (
+        !isNaN(Number(adjustments)) &&
+        adjustments !== lineItem?.[0]?.adjustments
+      ) {
         // edit adjustment value
         setIsModifying(true);
         // setIsModifying(false);
@@ -48,7 +51,7 @@ export default function LineItemDetailPage({
 
       // setIsEditing(false);
     },
-    [refetch]
+    [lineItem, refetch]
   );
 
   return (
@@ -107,7 +110,7 @@ export default function LineItemDetailPage({
               />
               <button
                 type="submit"
-                className="px-2 py-1 bg-red-500 text-white hover:bg-red-300 rounded-sm cursor-pointer min-w-10 h-8"
+                className="px-2 py-1 bg-red-500 text-white hover:bg-red-300 rounded-sm cursor-pointer w-16 h-8"
                 disabled={isModifying}
               >
                 {isModifying ? (
