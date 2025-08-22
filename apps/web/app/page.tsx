@@ -18,6 +18,7 @@ import { Campaign } from "@placement-io-oms/utils/types";
 import useTablePagination from "@/lib/hooks/pagination/useTablePagination";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/navigation";
+import TableHeadBar, { FilterObjectType } from "@/components/TableHeadBar";
 
 export default function Home() {
   // router
@@ -48,6 +49,11 @@ export default function Home() {
     columnHelper.accessor((row) => row.name, {
       id: "campaignName",
       header: () => <div>Name</div>,
+      filterFn: (row, columnId, filterValue: FilterObjectType) => {
+        const { searchValue } = filterValue;
+        const campaignName = row.getValue(columnId) as string;
+        return campaignName.toLowerCase().includes(searchValue);
+      },
       size: 500,
       enableSorting: false,
       cell: ({ row }) => {
@@ -82,7 +88,8 @@ export default function Home() {
   return (
     <main className="w-full">
       <section className="flex flex-col items-center gap-y-4 p-4">
-        <h1 className="text-2xl w-full text-center font-bold">Campaign</h1>
+        <h1 className="text-2xl w-full text-center font-bold">Campaigns</h1>
+        <TableHeadBar<Campaign> table={table} filterTarget="campaignName" />
         <table className="border-2 border-solid border-black w-full">
           <thead>
             {table.getHeaderGroups().map((group) => (

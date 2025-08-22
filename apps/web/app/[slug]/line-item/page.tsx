@@ -18,6 +18,10 @@ import {
 import { LineItem } from "@placement-io-oms/utils/types";
 import useTablePagination from "@/lib/hooks/pagination/useTablePagination";
 import Pagination from "@/components/Pagination";
+import TableHeadBar, { FilterObjectType } from "@/components/TableHeadBar";
+
+// Provide some category examples
+const lineItemCategory = ["Car", "Shirt", "Pants"];
 
 export default function LineItemPage({
   params,
@@ -58,6 +62,18 @@ export default function LineItemPage({
     columnHelper.accessor((row) => row.lineItemName, {
       id: "lineItemName",
       header: () => <div>Line Item Name</div>,
+      filterFn: (row, columnId, filterValue: FilterObjectType) => {
+        const { searchValue, category } = filterValue;
+
+        const lineItemName = row.getValue(columnId) as string;
+        const isContainSearchValue = lineItemName
+          .toLowerCase()
+          .includes(searchValue);
+        const isContainCategory = category
+          ? lineItemName.toLowerCase().includes(category.toLowerCase())
+          : true;
+        return isContainSearchValue && isContainCategory;
+      },
       size: 200,
       enableSorting: false,
       cell: ({ row }) => {
@@ -122,7 +138,7 @@ export default function LineItemPage({
   return (
     <main className="w-full">
       <section className="flex flex-col items-center gap-y-4 p-4">
-        <h1 className="text-2xl w-full text-center font-bold">Line Item</h1>
+        <h1 className="text-2xl w-full text-center font-bold">Line Items</h1>
         <div className="text-lg p-2 border-[1px] border-solid border-black">
           <div className="font-bold">
             Campaign Id: {table.getRowModel().rows[0]?.original.campaignId}
@@ -144,6 +160,11 @@ export default function LineItemPage({
             {"< Back"}
           </button>
         </div>
+        <TableHeadBar<LineItem>
+          table={table}
+          filterTarget="lineItemName"
+          categories={lineItemCategory}
+        />
         <table className="border-2 border-solid border-black w-full">
           <thead>
             {table.getHeaderGroups().map((group) => (
