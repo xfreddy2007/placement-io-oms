@@ -4,6 +4,8 @@ import { use, useState, useCallback, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchLineItems } from "@/lib/hooks/lineItem/useFetchLineItems";
 import ApiClient from "@/lib/api";
+import DetailElement from "@/components/DetailElement";
+import BackBtn from "@/components/BackBtn";
 
 export default function LineItemDetailPage({
   params,
@@ -61,41 +63,33 @@ export default function LineItemDetailPage({
 
   return (
     <section className="w-full p-16">
-      <div className="w-full">
-        <h1 className="text-2xl font-bold text-center mb-4">
-          Line Item Detail
-        </h1>
-      </div>
+      <h1 className="w-full text-2xl font-bold text-center mb-4">
+        Line Item Detail
+      </h1>
       <div className="w-full mb-4">
-        <button
-          className="bg-black text-white hover:bg-gray-700 transition duration-100 px-4 py-2 rounded-lg cursor-pointer"
+        <BackBtn
           onClick={() => {
             router.back();
           }}
-        >
-          {"< Back"}
-        </button>
+        />
       </div>
       {isLoading ? (
         <div className="w-full h-24">Loading...</div>
       ) : lineItem && lineItem?.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 p-4 border-[1px] border-solid border-black gap-2">
-          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-            <span className="font-bold">Line item id:</span>
-            <span>{lineItemId}</span>
-          </div>
-          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-            <span className="font-bold">Line item name:</span>
-            <span>{lineItem[0]?.lineItemName}</span>
-          </div>
-          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-            <span className="font-bold">Booked amount:</span>
-            <span>{lineItem[0]?.bookedAmount}</span>
-          </div>
-          <div className="text-base py-2 px-4 flex gap-x-2 h-10">
-            <span className="font-bold">Actual amount:</span>
-            <span>{lineItem[0]?.actualAmount}</span>
-          </div>
+          <DetailElement title="Line item id" element={lineItemId} />
+          <DetailElement
+            title="Line item name"
+            element={lineItem[0]?.lineItemName || ""}
+          />
+          <DetailElement
+            title="Booked amount"
+            element={lineItem[0]?.bookedAmount.toString() || ""}
+          />
+          <DetailElement
+            title="Actual amount"
+            element={lineItem[0]?.actualAmount.toString() || ""}
+          />
           {isEditing ? (
             <form
               onSubmit={onSubmit}

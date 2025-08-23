@@ -19,6 +19,7 @@ import { LineItem } from "@placement-io-oms/utils/types";
 import useTablePagination from "@/lib/hooks/pagination/useTablePagination";
 import Pagination from "@/components/Pagination";
 import TableHeadBar, { FilterObjectType } from "@/components/TableHeadBar";
+import BackBtn from "@/components/BackBtn";
 
 // Provide some category examples
 const lineItemCategory = ["Car", "Shirt", "Pants"];
@@ -173,14 +174,11 @@ export default function LineItemPage({
           </div>
         </div>
         <div className="w-full">
-          <button
-            className="bg-black text-white hover:bg-gray-700 transition duration-100 px-4 py-2 rounded-lg cursor-pointer"
+          <BackBtn
             onClick={() => {
               router.push("/");
             }}
-          >
-            {"< Back"}
-          </button>
+          />
         </div>
         <TableHeadBar<LineItem>
           table={table}
@@ -296,7 +294,7 @@ export default function LineItemPage({
                 })}
               </span>
             </div>
-            <div className="flex gap-x-1">
+            <div className="flex gap-x-2">
               <span className="font-bold">Actual Amount:</span>
               <span>
                 $
@@ -305,7 +303,7 @@ export default function LineItemPage({
                 })}
               </span>
             </div>
-            <div className="flex gap-x-1">
+            <div className="flex gap-x-2">
               <span className="font-bold">Adjustments:</span>
               <span>
                 $
