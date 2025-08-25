@@ -154,6 +154,7 @@ placement-io-oms/
 - **GET /campaigns/:id**: Get campaign details with line items
 - **GET /line-items**: List line items with filtering options
 - **PUT /line-items/update**: Update line item adjustments (editable field)
+- **GET /reporting/campaign**: Get campaign performance reports with booked vs actual data
 
 #### 3. **Database Schema** ✅
 
@@ -166,6 +167,14 @@ placement-io-oms/
 - **ts-rest Contracts**: Type-safe API endpoints
 - **Prisma Integration**: Type-safe database operations
 - **Full TypeScript**: End-to-end type safety
+
+#### 5. **Reporting Module** ✅
+
+- **Campaign Performance Reports**: Booked vs actual amount analysis
+- **Variance Calculations**: Automatic calculation of variances and percentages
+- **Interactive Charts**: Visual representation of performance data
+- **Filtering**: Campaign-specific reporting with drill-down capabilities
+- **Summary Statistics**: Overall performance metrics and averages
 
 ### Design Decisions & Trade-offs
 
