@@ -103,16 +103,52 @@ placement-io-oms/
 
 3. **Environment Configuration**
 
+   You need to create environment files for both the database and API server:
+
+   **Database Environment** (`packages/database/.env`):
+
    ```bash
    # Create environment file for database
    cd packages/database
-   cp .env.example .env
-   # Update DATABASE_URL with your PostgreSQL connection string
+   cp env.example .env
+   # Edit .env file with your database credentials
+   ```
+
+   **API Server Environment** (`apps/api/.env`):
+
+   ```bash
+   # Create environment file for API server
+   cd apps/api
+   touch .env
+   ```
+
+   Add the following content to `apps/api/.env`:
+
+   ```env
+   # API Server Configuration
+   ENVIRONMENT=development
+   PORT=8080
+   ```
+
+   **Web App Environment** (`apps/web/.env.local`):
+
+   ```bash
+   # Create environment file for web app
+   cd apps/web
+   touch .env.local
+   ```
+
+   Add the following content to `apps/web/.env.local`:
+
+   ```env
+   # Web App Configuration
+   NEXT_PUBLIC_API_URL=http://localhost:8080
    ```
 
 4. **Database Migration & Seeding**
 
    ```bash
+   # From root directory
    yarn run db:generate    # Generate Prisma client
    yarn run db:push        # Push schema to database
    yarn run db:seed        # Seed with sample data
@@ -125,10 +161,10 @@ placement-io-oms/
    docker compose up           # Start PostgreSQL database container
 
    # New terminal for back end api
-   yarn workspace api dev     # API server only
+   yarn workspace api dev     # API server only (runs on port 8080)
 
    # New terminal for front end web app
-   yarn workspace web dev     # Web app only
+   yarn workspace web dev     # Web app only (runs on port 3000)
    ```
 
 ### Development URLs
@@ -136,7 +172,36 @@ placement-io-oms/
 - **API Server**: http://localhost:8080
 - **Web Application**: http://localhost:3000
 - **API Documentation**: http://localhost:8080/swagger
-- **Database Studio**: Run `yarn run db:studio` in root directory
+- **Database Studio**: Run `yarn workspace database db:studio` from root directory
+
+### Environment Variables Reference
+
+| Variable              | Location                 | Description                  | Default/Example                                            |
+| --------------------- | ------------------------ | ---------------------------- | ---------------------------------------------------------- |
+| `DATABASE_URL`        | `packages/database/.env` | PostgreSQL connection string | `postgresql://testuser:testpassword@localhost:5432/testdb` |
+| `ENVIRONMENT`         | `apps/api/.env`          | API server environment       | `development`                                              |
+| `PORT`                | `apps/api/.env`          | API server port              | `8080`                                                     |
+| `NEXT_PUBLIC_API_URL` | `apps/web/.env.local`    | Web app API endpoint         | `http://localhost:8080`                                    |
+
+### Troubleshooting
+
+**Database Connection Issues:**
+
+- Ensure PostgreSQL is running: `docker compose ps`
+- Check database URL format: `postgresql://username:password@host:port/database`
+- Verify database exists: Connect using `psql` or database client
+
+**API Server Issues:**
+
+- Check if port 8080 is available: `lsof -i :8080`
+- Verify environment file exists: `apps/api/.env`
+- Check logs: `yarn workspace api dev`
+
+**Web App Issues:**
+
+- Ensure API server is running on correct port
+- Check `NEXT_PUBLIC_API_URL` in `apps/web/.env.local`
+- Clear Next.js cache: `rm -rf apps/web/.next`
 
 ## 🎯 Implementation Details
 
